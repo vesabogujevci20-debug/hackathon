@@ -1,5 +1,5 @@
 /* =====================================================
-   REACTION ARENA — FULL SCRIPT (script.js)
+   REACTION ARENA — COMPLETE SCRIPT (script.js)
 ===================================================== */
 (function () {
     const STATE_KEY = 'reactionArenaState_v4';
@@ -441,8 +441,6 @@
 
         document.body.classList.toggle('skin-ring', Boolean(st.skinRing));
         document.body.classList.toggle('arena-grid-bg', Boolean(st.arenaGrid));
-        document.body.classList.toggle('pulse-signal', Boolean(st.signalPulse));
-        document.body.classList.toggle('sonic-wave', Boolean(st.sonicWave));
         document.body.classList.toggle('rainbow-bar', Boolean(st.rainbowBar));
     }
 
@@ -782,53 +780,335 @@
     });
 
     /* -------------------------------------------------
-       SMOOTH ANIMATIONS SYNC & POP FEEDBACK
+       REACTION ARENA ENGINE (#startButton, #resetButton)
     ------------------------------------------------- */
-    function syncAnimationSetting() {
-        const st = readState();
-        const selectEl = document.getElementById('animationSetting');
-        if (selectEl && selectEl.value !== st.animation) {
-            selectEl.value = st.animation || 'on';
+    const MODE_CONFIG = {
+        classic:   { label: 'CLASSIC',   minMs: 1800, maxMs: 4200, xpMult: 1.0 },
+        precision: { label: 'PRECISION', minMs: 2200, maxMs: 4500, xpMult: 1.2 },
+        extreme:   { label: 'EXTREME',   minMs: 900,  maxMs: 3500, xpMult: 1.5 },
+        warmup:    { label: 'WARMUP',    minMs: 1500, maxMs: 3000, xpMult: 0.8 },
+        duel:      { label: 'DUEL',      minMs: 1500, maxMs: 3800, xpMult: 1.2 }
+    };
+
+    const MAX_ROUNDS = 5;
+    let arenaPhase = 'idle';
+    let roundNum = 0;
+    let sessionTimes = [];
+    let waitTimer = null;
+    let signalStartPerf = 0;
+
+    function clearWaitTimer() {
+        if (waitTimer) {
+            clearTimeout(waitTimer);
+            waitTimer = null;
         }
-        document.body.classList.toggle('no-animations', st.animation === 'off');
     }
 
-    document.getElementById('animationSetting')?.addEventListener('change', (e) => {
-        const st = readState();
-        st.animation = e.target.value === 'off' ? 'off' : 'on';
-        writeState(st);
-        showToast(`Animations ${st.animation === 'on' ? 'enabled' : 'disabled'}`);
-    });
-
-    function pulseElement(el) {
-        if (!el || readState().animation === 'off') return;
-        el.classList.remove('ra-pop');
-        void el.offsetWidth;
-        el.classList.add('ra-pop');
+    function getRating(ms) {
+        if (ms < 160) return 'Mythic';
+        if (ms < 200) return 'Lightning';
+        if (ms < 250) return 'Fast';
+        if (ms < 320) return 'Good';
+        return 'Average';
     }
 
-    const resultEl = document.getElementById('result');
-    if (resultEl) {
-        const observer = new MutationObserver(() => {
-            if (!resultEl.classList.contains('hidden')) {
-                pulseElement(resultEl);
-                pulseElement(document.getElementById('best'));
+    function getModeCfg() {
+        const modeSelect = document.getElementById('modeSelect');
+        const key = (modeSelect?.value || 'classic').toLowerCase();
+        return MODE_CONFIG[key] || MODE_CONFIG.classic;
+    }
+
+    function updateArenaHUD() {
+        const roundEl = document.getElementById('round');
+        const gameBestEl = document.getElementById('gameBest');
+        const gameAvgEl = document.getElementById('gameAverage');
+
+        if (roundEl) roundEl.textContent = `${roundNum} / ${MAX_ROUNDS}`;
+        if (gameBestEl) {
+            gameBestEl.textContent = sessionTimes.length ? `${Math.min(...sessionTimes)}ms` : '---';
+        }
+        if (gameAvgEl) {
+            const avg = sessionTimes.length
+                ? Math.round(sessionTimes.reduce((a, b) => a + b, 0) / sessionTimes.length)
+                : null;
+            gameAvgEl.textContent = avg !== null ? `${avg}ms` : '---';
+        }
+    }
+
+    function setScreenState({ title, message, iconClass, screenClass, resultText }) {
+        const titleEl = document.getElementById('signalTitle');
+        const msgEl = document.getElementById('signalMessage');
+        const signalEl = document.getElementById('signal');
+        const screenEl = document.getElementById('gameScreen');
+        const resultBox = document.getElementById('result');
+        const resultMsg = document.getElementById('resultMessage');
+
+        if (titleEl) titleEl.textContent = title;
+        if (msgEl) msgEl.textContent = message;
+        if (signalEl && iconClass) {
+            signalEl.innerHTML = `<i class="fa-solid ${iconClass}"></i>`;
+        }
+        if (screenEl) {
+            screenEl.classList.remove('waiting', 'go', 'early', 'done');
+            if (screenClass) screenEl.classList.add(screenClass);
+        }
+        if (resultBox && resultMsg) {
+            if (resultText) {
+                resultMsg.textContent = resultText;
+                resultBox.classList.remove('hidden');
+            } else {
+                resultBox.classList.add('hidden');
             }
-        });
-        observer.observe(resultEl, { attributes: true, attributeFilter: ['class'] });
+        }
     }
 
-    document.addEventListener('ra:page-changed', () => {
-        syncAnimationSetting();
-        const activeCards = document.querySelectorAll('.page.active .stat-card, .page.active .mode-card, .page.active .shop-card, .page.active .achievement-card, .page.active .rank-step');
-        activeCards.forEach((card, idx) => {
-            if (readState().animation === 'off') return;
-            card.style.animationDelay = `${Math.min(idx, 6) * 45}ms`;
+    function syncArenaButtons() {
+        const startBtn = document.getElementById('startButton');
+        const nextBtn = document.getElementById('nextButton');
+
+        if (startBtn) {
+            startBtn.classList.toggle('hidden', arenaPhase !== 'idle' && arenaPhase !== 'finished');
+            startBtn.innerHTML = arenaPhase === 'finished'
+                ? '<i class="fa-solid fa-play"></i> Play Again'
+                : '<i class="fa-solid fa-play"></i> Start Game';
+        }
+        if (nextBtn) {
+            nextBtn.classList.toggle('hidden', arenaPhase !== 'round_done');
+        }
+    }
+
+    function beginWaitingRound() {
+        clearWaitTimer();
+        arenaPhase = 'waiting';
+        const cfg = getModeCfg();
+        const isDuel = cfg.label === 'DUEL';
+
+        setScreenState({
+            title: 'Wait for Green...',
+            message: isDuel
+                ? 'Hold steady! When it turns green: P1 press A, P2 press L.'
+                : 'Do not click yet. Wait for the green signal!',
+            iconClass: 'fa-hourglass-half',
+            screenClass: 'waiting',
+            resultText: ''
         });
+        syncArenaButtons();
+
+        const delay = cfg.minMs + Math.random() * (cfg.maxMs - cfg.minMs);
+        waitTimer = setTimeout(() => {
+            if (arenaPhase !== 'waiting') return;
+            arenaPhase = 'go';
+            signalStartPerf = performance.now();
+            setScreenState({
+                title: 'CLICK / REACT NOW!',
+                message: isDuel ? 'GO! Press A (Player 1) or L (Player 2)!' : 'GO! Click or press Space now!',
+                iconClass: 'fa-bolt',
+                screenClass: 'go',
+                resultText: ''
+            });
+            syncArenaButtons();
+        }, delay);
+    }
+
+    function startArenaSession() {
+        clearWaitTimer();
+        roundNum = 1;
+        sessionTimes = [];
+        updateArenaHUD();
+        beginWaitingRound();
+    }
+
+    function resetArenaSession() {
+        clearWaitTimer();
+        arenaPhase = 'idle';
+        roundNum = 0;
+        sessionTimes = [];
+        updateArenaHUD();
+        syncArenaButtons();
+        setScreenState({
+            title: 'Ready?',
+            message: 'Press Start or Space to begin your challenge.',
+            iconClass: 'fa-bolt',
+            screenClass: '',
+            resultText: ''
+        });
+    }
+
+    function recordValidReaction(ms, duelWinnerLabel = '') {
+        const cleanMs = Math.max(50, Math.round(ms));
+        const cfg = getModeCfg();
+        const rating = getRating(cleanMs);
+        const baseXP = cleanMs < 180 ? 90 : cleanMs < 240 ? 70 : cleanMs < 320 ? 50 : 35;
+        const earnedXP = Math.max(15, Math.round(baseXP * cfg.xpMult));
+
+        sessionTimes.push(cleanMs);
+        updateArenaHUD();
+
+        const st = readState();
+        st.totalXP = (Number(st.totalXP) || 0) + earnedXP;
+        if (cleanMs < 250) st.dailyCompleted = true;
+        if (duelWinnerLabel) st.duelsWon = (Number(st.duelsWon) || 0) + 1;
+
+        st.games.unshift({
+            time: cleanMs,
+            rating,
+            mode: cfg.label,
+            xp: earnedXP,
+            date: new Date().toLocaleString()
+        });
+
+        let streak = 0;
+        for (const g of st.games) {
+            if (Number(g.time) < 250) streak++;
+            else break;
+        }
+        st.bestStreak = Math.max(Number(st.bestStreak) || 0, streak);
+
+        const level = Math.floor(st.totalXP / XP_PER_LEVEL) + 1;
+        const bestAll = Math.min(...st.games.map(g => Number(g.time) || cleanMs));
+        st.achievements = {
+            ...st.achievements,
+            firstGame: true,
+            speedDemon: st.achievements.speedDemon || bestAll < 220,
+            lightning: st.achievements.lightning || bestAll < 170,
+            mythicReflex: st.achievements.mythicReflex || bestAll < 130,
+            veteran: st.achievements.veteran || level >= 5,
+            streakMaster: st.achievements.streakMaster || st.bestStreak >= 3,
+            marathon: st.achievements.marathon || st.games.length >= 20,
+            duelChampion: st.achievements.duelChampion || st.duelsWon >= 1
+        };
+
+        writeState(st);
+
+        const prefix = duelWinnerLabel ? `${duelWinnerLabel} — ` : '';
+        if (roundNum >= MAX_ROUNDS) {
+            arenaPhase = 'finished';
+            const avg = Math.round(sessionTimes.reduce((a, b) => a + b, 0) / sessionTimes.length);
+            setScreenState({
+                title: 'Session Complete!',
+                message: 'Press Start / Play Again to run another 5-round set.',
+                iconClass: 'fa-trophy',
+                screenClass: 'done',
+                resultText: `${prefix}${cleanMs}ms (${rating}, +${earnedXP} XP) • Session Avg: ${avg}ms`
+            });
+        } else {
+            arenaPhase = 'round_done';
+            setScreenState({
+                title: `${cleanMs} ms`,
+                message: 'Click "Next Round" or press Space for the next round.',
+                iconClass: 'fa-gauge-high',
+                screenClass: 'done',
+                resultText: `${prefix}${cleanMs}ms — ${rating} (+${earnedXP} XP)`
+            });
+        }
+        syncArenaButtons();
+    }
+
+    function handleFalseStart() {
+        clearWaitTimer();
+        const st = readState();
+        st.earlyClicks = (Number(st.earlyClicks) || 0) + 1;
+        writeState(st);
+
+        arenaPhase = 'round_done';
+        setScreenState({
+            title: 'Too Early!',
+            message: 'False start! Wait for the green signal before reacting.',
+            iconClass: 'fa-triangle-exclamation',
+            screenClass: 'early',
+            resultText: 'False Start — 0 XP this round'
+        });
+        syncArenaButtons();
+    }
+
+    function handleArenaTrigger(duelWinnerLabel = '') {
+        if (arenaPhase === 'idle' || arenaPhase === 'finished') {
+            startArenaSession();
+            return;
+        }
+        if (arenaPhase === 'waiting') {
+            handleFalseStart();
+            return;
+        }
+        if (arenaPhase === 'go') {
+            const elapsed = performance.now() - signalStartPerf;
+            recordValidReaction(elapsed, duelWinnerLabel);
+            return;
+        }
+        if (arenaPhase === 'round_done' && roundNum < MAX_ROUNDS) {
+            roundNum += 1;
+            updateArenaHUD();
+            beginWaitingRound();
+        }
+    }
+
+    document.getElementById('startButton')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        startArenaSession();
     });
+
+    document.getElementById('nextButton')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (arenaPhase === 'round_done' && roundNum < MAX_ROUNDS) {
+            roundNum += 1;
+            updateArenaHUD();
+            beginWaitingRound();
+        }
+    });
+
+    document.getElementById('resetButton')?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        resetArenaSession();
+        showToast('Arena reset');
+    });
+
+    document.getElementById('gameScreen')?.addEventListener('click', () => {
+        handleArenaTrigger();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        const tag = e.target?.tagName;
+        if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
+
+        const arenaVisible = document.getElementById('arena')?.classList.contains('active');
+        if (!arenaVisible) return;
+
+        if (e.code === 'Space') {
+            e.preventDefault();
+            handleArenaTrigger();
+        } else if (e.key && e.key.toLowerCase() === 'r') {
+            e.preventDefault();
+            resetArenaSession();
+        } else if (getModeCfg().label === 'DUEL') {
+            const k = e.key.toLowerCase();
+            if (k === 'a') {
+                e.preventDefault();
+                handleArenaTrigger('Player 1 Wins');
+            } else if (k === 'l') {
+                e.preventDefault();
+                handleArenaTrigger('Player 2 Wins');
+            }
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        const modeTrigger = e.target.closest('[data-mode]');
+        if (!modeTrigger) return;
+        const chosenMode = (modeTrigger.dataset.mode || '').toLowerCase();
+        const modeSelect = document.getElementById('modeSelect');
+        if (modeSelect && MODE_CONFIG[chosenMode]) {
+            modeSelect.value = chosenMode;
+            resetArenaSession();
+        }
+    });
+
+    updateArenaHUD();
+    syncArenaButtons();
 
     function renderAll() {
-        syncAnimationSetting();
+        document.getElementById('authModal')?.classList.add('hidden');
+        document.getElementById('sidebarOverlay')?.classList.remove('show');
+        document.getElementById('profileDropdown')?.classList.add('hidden');
         syncStateToAccount();
         applyShopVisuals(readState());
         renderRanks();
