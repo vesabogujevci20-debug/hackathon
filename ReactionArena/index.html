@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Reaction Arena | Ultimate Reaction Platform</title>
+
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/arena.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+<div class="app">
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fa-solid fa-bolt"></i>
+            </div>
+
+            <span>
+                REACTION<span class="logo-highlight">ARENA</span>
+            </span>
+        </div>
+
+        <div class="sidebar-label">MAIN MENU</div>
+
+        <nav class="navigation" aria-label="Main Menu">
+
+            <button type="button" class="nav-button active" data-page="home">
+                <i class="fa-solid fa-house"></i>
+                <span>Dashboard</span>
+            </button>
+
+            <button type="button" class="nav-button" data-page="arena">
+                <i class="fa-solid fa-bullseye"></i>
+                <span>Reaction Arena</span>
+                <span class="nav-badge">LIVE</span>
+            </button>
+
+            <button type="button" class="nav-button" data-page="levels">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Levels &amp; Ranks</span>
+            </button>
+
+            <button type="button" class="nav-button" data-page="history">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                <span>Game History</span>
+            </button>
+
+            <button type="button" class="nav-button" data-page="achievements">
+                <i class="fa-solid fa-trophy"></i>
+                <span>Achievements</span>
+            </button>
+
+            <button type="button" class="nav-button" data-page="shop">
+                <i class="fa-solid fa-store"></i>
+                <span>XP Shop</span>
+            </button>
+
+        </nav>
+
+        <div class="sidebar-label">PERSONAL</div>
+
+        <nav class="navigation" aria-label="Personal Menu">
+
+            <button type="button" class="nav-button" data-page="settings">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings</span>
+            </button>
+
+        </nav>
+
+        <!-- PLAYER LEVEL -->
+        <div class="sidebar-level">
+
+            <div class="sidebar-level-top">
+                <span>YOUR PROGRESS</span>
+                <strong>LVL <span id="sideLevel">1</span></strong>
+            </div>
+
+            <div class="progress-track">
+                <div class="progress-fill" id="sideProgress"></div>
+            </div>
+
+            <small><span id="sideXP">0</span> XP earned (<span id="xpToNextLevel">300</span> to next)</small>
+
+        </div>
+
+        <!-- PROFILE -->
+        <div class="sidebar-bottom">
+
+            <div class="profile">
+
+                <div class="profile-avatar" id="sidebarAvatar">P</div>
+
+                <div class="profile-information">
+                    <strong id="sidebarUsername">Player</strong>
+                    <small id="sidebarRankTitle">Rookie Reflex</small>
+                </div>
+
+                <button type="button" class="profile-settings" data-open="settings" aria-label="Open Settings">
+                    <i class="fa-solid fa-gear"></i>
+                </button>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button type="button" class="mobile-menu-button" id="mobileMenuButton" aria-label="Toggle Menu">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+
+                <div>
+                    <h1 id="pageTitle">Dashboard</h1>
+                    <p id="pageSubtitle">Welcome back! Ready to improve your reaction speed?</p>
+                </div>
+
+            </div>
+
+            <div class="topbar-right">
+
+                <button type="button" class="icon-button" id="notificationButton" aria-label="Notifications">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification-dot"></span>
+                </button>
+
+                <div class="status-indicator">
+                    <span></span>
+                    System Online
+                </div>
+
+                <div class="profile-menu" id="profileMenu">
+
+                    <button type="button" class="top-avatar" id="profileButton" aria-label="Profile Menu">P</button>
+
+                    <div class="profile-dropdown hidden" id="profileDropdown">
+
+                        <strong id="dropdownUsername">Player</strong>
+                        <small>Reaction Arena Member</small>
+
+                        <hr>
+
+                        <button type="button" data-open="shop">
+                            <i class="fa-solid fa-store"></i>
+                            XP Shop
+                        </button>
+
+                        <button type="button" data-open="achievements">
+                            <i class="fa-solid fa-trophy"></i>
+                            Achievements
+                        </button>
+
+                        <button type="button" data-open="settings">
+                            <i class="fa-solid fa-gear"></i>
+                            Settings
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================================= -->
+        <!-- DASHBOARD PAGE -->
+        <!-- ================================= -->
+
+        <section class="page active" id="home">
+
+            <!-- HERO -->
+            <div class="welcome-banner">
+
+                <div class="welcome-content">
+
+                    <span class="eyebrow">
+                        YOUR TRAINING STARTS HERE
+                    </span>
+
+                    <h2>
+                        Test Your
+                        <span>Reaction Speed.</span>
+                    </h2>
+
+                    <p>
+                        Challenge yourself, improve your reflexes, build streaks,
+                        compete in 2-player duels, and climb the ranks.
+                    </p>
+
+                    <div class="hero-actions">
+                        <button type="button" class="primary-button" data-open="arena">
+                            Start Training
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+
+                        <button type="button" class="secondary-button" data-open="arena" data-mode="duel">
+                            <i class="fa-solid fa-users"></i>
+                            2P Duel
+                        </button>
+
+                        <button type="button" class="secondary-button" data-open="shop">
+                            <i class="fa-solid fa-store"></i>
+                            XP Shop
+                        </button>
+                    </div>
+
+                </div>
+
+                <div class="welcome-visual" aria-hidden="true">
+
+                    <i class="fa-solid fa-bolt"></i>
+
+                    <div class="visual-ring ring-one"></div>
+                    <div class="visual-ring ring-two"></div>
+                    <div class="visual-ring ring-three"></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- STATISTICS -->
+            <div class="section-heading">
+
+                <div>
+                    <h2>Your Statistics</h2>
+                    <p>Track your reaction performance</p>
+                </div>
+
+                <span class="section-tag">
+                    <i class="fa-solid fa-chart-line"></i>
+                    OVERVIEW
+                </span>
+
+            </div>
+
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-icon purple">
+                        <i class="fa-solid fa-stopwatch"></i>
+                    </div>
+                    <span>Personal Best</span>
+                    <h3 id="best">---</h3>
+                    <small>Milliseconds</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon blue">
+                        <i class="fa-solid fa-chart-simple"></i>
+                    </div>
+                    <span>Average Reaction</span>
+                    <h3 id="average">---</h3>
+                    <small>Milliseconds</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon green">
+                        <i class="fa-solid fa-crosshairs"></i>
+                    </div>
+                    <span>Accuracy Rate</span>
+                    <h3 id="accuracyStat">100%</h3>
+                    <small>Valid vs false clicks</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon orange">
+                        <i class="fa-solid fa-fire"></i>
+                    </div>
+                    <span>Fast Streak</span>
+                    <h3 id="streakStat">0</h3>
+                    <small>Consecutive &lt; 250ms</small>
+                </div>
+
+            </div>
+
+
+            <!-- SECONDARY STATS ROW -->
+            <div class="mini-stats-bar">
+                <div class="mini-stat">
+                    <span>Rounds Completed</span>
+                    <strong id="totalGames">0</strong>
+                </div>
+                <div class="mini-stat">
+                    <span>Total XP Earned</span>
+                    <strong id="totalXP">0</strong>
+                </div>
+                <div class="mini-stat">
+                    <span>Duels Won</span>
+                    <strong id="duelsWonStat">0</strong>
+                </div>
+                <div class="mini-stat">
+                    <span>Current Rank</span>
+                    <strong id="currentRankStat">Rookie Reflex</strong>
+                </div>
+            </div>
+
+
+            <!-- PERFORMANCE TREND CHART -->
+            <div class="section-heading">
+                <div>
+                    <h2>Reaction Trend</h2>
+                    <p>Last 10 recorded rounds (lower ms = faster reflex)</p>
+                </div>
+
+                <span class="section-tag">
+                    <i class="fa-solid fa-wave-square"></i>
+                    LIVE CHART
+                </span>
+            </div>
+
+            <div class="chart-panel" id="chartPanel">
+                <svg id="reactionChart" viewBox="0 0 640 190" aria-label="Reaction time chart"></svg>
+                <div class="chart-empty hidden" id="chartEmpty">
+                    <i class="fa-solid fa-chart-area"></i>
+                    <p>Play at least 2 rounds in the Arena to see your speed curve.</p>
+                </div>
+            </div>
+
+
+            <!-- DAILY CHALLENGE -->
+            <div class="section-heading">
+                <div>
+                    <h2>Daily Challenge</h2>
+                    <p>Complete today's mission</p>
+                </div>
+            </div>
+
+
+            <div class="daily-challenge">
+
+                <div class="daily-icon">
+                    <i class="fa-solid fa-calendar-check"></i>
+                </div>
+
+                <div class="daily-information">
+
+                    <span>DAILY MISSION</span>
+
+                    <h3>Beat 250ms</h3>
+
+                    <p>
+                        Get a reaction time below 250 milliseconds.
+                    </p>
+
+                    <div class="challenge-progress">
+                        <div class="challenge-progress-fill" id="dailyProgress"></div>
+                    </div>
+
+                    <small id="dailyStatus">0 / 1 completed</small>
+
+                </div>
+
+                <div class="daily-reward">
+
+                    <i class="fa-solid fa-star"></i>
+                    <strong>+100 XP</strong>
+                    <small>Reward</small>
+
+                </div>
+
+            </div>
+
+
+            <!-- GAME MODES -->
+            <div class="section-heading">
+
+                <div>
+                    <h2>Quick Game Modes</h2>
+                    <p>Choose your challenge</p>
+                </div>
+
+            </div>
+
+
+            <div class="mode-grid">
+
+                <div class="mode-card">
+                    <div class="mode-icon purple">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h3>Classic Mode</h3>
+                    <p>Standard random wait times (1.8s – 4.2s) with 1.0x XP.</p>
+                    <button type="button" class="text-button" data-open="arena" data-mode="classic">
+                        Play Now
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <div class="mode-card">
+                    <div class="mode-icon blue">
+                        <i class="fa-solid fa-crosshairs"></i>
+                    </div>
+                    <h3>Precision Mode</h3>
+                    <p>Longer tension build-up (2.2s – 4.5s) with 1.2x XP.</p>
+                    <button type="button" class="text-button" data-open="arena" data-mode="precision">
+                        Play Now
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <div class="mode-card">
+                    <div class="mode-icon orange">
+                        <i class="fa-solid fa-fire"></i>
+                    </div>
+                    <h3>Extreme Mode</h3>
+                    <p>Sudden signals (0.9s – 3.5s) and high reward (1.5x XP).</p>
+                    <button type="button" class="text-button" data-open="arena" data-mode="extreme">
+                        Play Now
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <div class="mode-card">
+                    <div class="mode-icon purple">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <h3>2-Player Duel</h3>
+                    <p>Head-to-head on one keyboard: Player 1 presses <kbd>A</kbd>, Player 2 presses <kbd>L</kbd>.</p>
+                    <button type="button" class="text-button" data-open="arena" data-mode="duel">
+                        Start Duel
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <div class="mode-card">
+                    <div class="mode-icon blue">
+                        <i class="fa-solid fa-heart-pulse"></i>
+                    </div>
+                    <h3>Warm-up Mode</h3>
+                    <p>Relaxed pace (1.5s – 3.0s) ideal for building consistency.</p>
+                    <button type="button" class="text-button" data-open="arena" data-mode="warmup">
+                        Warm Up
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <div class="mode-card">
+                    <div class="mode-icon orange">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <h3>False Start Tracker</h3>
+                    <p>Total early clicks recorded: <strong id="earlyClicksInline">0</strong>.</p>
+                    <button type="button" class="text-button" data-open="history">
+                        Inspect Logs
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+            </div>
+
+
+            <!-- LEADERBOARD -->
+            <div class="section-heading">
+
+                <div>
+                    <h2>Leaderboard</h2>
+                    <p>Top reaction speed players</p>
+                </div>
+
+                <span class="section-tag">
+                    <i class="fa-solid fa-crown"></i>
+                    TOP PLAYERS
+                </span>
+
+            </div>
+
+
+            <div class="leaderboard-panel">
+
+                <div class="leaderboard-header">
+                    <span>PLAYER</span>
+                    <span>BEST TIME</span>
+                    <span>LEVEL</span>
+                </div>
+
+                <div class="leaderboard-list" id="leaderboardList"></div>
+
+                <p class="leaderboard-note">
+                    Includes sample rivals alongside your personal best.
+                </p>
+
+            </div>
+
+
+            <!-- RECENT ACTIVITY -->
+            <div class="section-heading">
+
+                <div>
+                    <h2>Recent Activity</h2>
+                    <p>Your latest training sessions</p>
+                </div>
+
+                <button type="button" class="text-button" data-open="history">
+                    View All
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+
+            </div>
+
+
+            <div class="activity-panel" id="recentActivity">
+
+                <div class="activity-empty">
+                    <i class="fa-solid fa-clock"></i>
+                    <h3>No activity yet</h3>
+                    <p>Play your first game to see your activity here.</p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================= -->
+        <!-- REACTION ARENA PAGE -->
+        <!-- ================================= -->
+
+        <section class="page" id="arena">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Reaction Arena</h2>
+                    <p>Wait for the green signal. Click or press Space as fast as possible.</p>
+                </div>
+
+                <span class="section-tag">
+                    <i class="fa-solid fa-circle"></i>
+                    GAME ACTIVE
+                </span>
+
+            </div>
+
+
+            <div class="arena-panel">
+
+                <div class="arena-toolbar">
+
+                    <div>
+                        <label for="modeSelect">GAME MODE</label>
+                        <select id="modeSelect">
+                            <option value="classic">Classic Mode (1.0x XP)</option>
+                            <option value="precision">Precision Mode (1.2x XP)</option>
+                            <option value="extreme">Extreme Mode (1.5x XP)</option>
+                            <option value="warmup">Warm-up Mode (0.8x XP)</option>
+                            <option value="duel">2-Player Duel (A vs L)</option>
+                        </select>
+                    </div>
+
+                    <div class="shortcut-hint" id="shortcutHint">
+                        <span><kbd>Space</kbd> React / Start</span>
+                        <span><kbd>R</kbd> Reset</span>
+                    </div>
+
+                </div>
+
+
+                <div class="arena-stats">
+
+                    <div>
+                        <span>ROUND</span>
+                        <strong id="round">0 / 5</strong>
+                    </div>
+
+                    <div>
+                        <span>BEST</span>
+                        <strong id="gameBest">---</strong>
+                    </div>
+
+                    <div>
+                        <span>AVERAGE</span>
+                        <strong id="gameAverage">---</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="game-screen" id="gameScreen" role="button" tabindex="0" aria-label="Reaction Arena Screen">
+
+                    <div class="signal-icon" id="signal">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+
+                    <h2 id="signalTitle">Ready?</h2>
+
+                    <p id="signalMessage">
+                        Press Start or Space to begin your challenge.
+                    </p>
+
+                </div>
+
+
+                <div class="game-controls">
+
+                    <button type="button" class="primary-button" id="startButton">
+                        <i class="fa-solid fa-play"></i>
+                        Start Game
+                    </button>
+
+                    <button type="button" class="secondary-button hidden" id="nextButton">
+                        Next Round
+                    </button>
+
+                    <button type="button" class="secondary-button" id="resetButton">
+                        <i class="fa-solid fa-rotate"></i>
+                        Reset
+                    </button>
+
+                </div>
+
+
+                <div class="result hidden" id="result">
+                    <h3 id="resultMessage">Your reaction time</h3>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================= -->
+        <!-- LEVELS & RANKS PAGE -->
+        <!-- ================================= -->
+
+        <section class="page" id="levels">
+
+            <div class="section-heading">
+                <div>
+                    <h2>Your Levels &amp; Ranks</h2>
+                    <p>Earn XP, level up, and climb through all 12 competitive rank tiers.</p>
+                </div>
+                <span class="section-tag">12 TIERS</span>
+            </div>
+
+            <div class="level-overview">
+                <div class="level-number" id="levelDisplay">1</div>
+
+                <div class="level-information">
+                    <h3>Level <span id="levelHeading">1</span> — <span id="levelRankLabel">Rookie Reflex</span></h3>
+                    <p><span id="sideXPDisplay">0</span> XP earned (<span id="xpToNextLevel">300</span> XP to next level)</p>
+
+                    <div class="progress-track">
+                        <div class="progress-fill" id="levelProgress"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rank-addon-card" id="rankSystemCard">
+                <div class="rank-addon-top">
+                    <div class="rank-addon-badge" id="rankAddonIcon">
+                        <i class="fa-solid fa-shield"></i>
+                    </div>
+                    <div class="rank-addon-info">
+                        <span class="rank-addon-eyebrow">COMPETITIVE RANK (12 TIERS)</span>
+                        <h3 id="rankAddonTitle">Iron I</h3>
+                        <p id="rankAddonNextText">0 / 250 XP to Iron II</p>
+                    </div>
+                    <div class="rank-addon-pill" id="rankAddonTierPill">DIV I</div>
+                </div>
+                <div class="rank-addon-bar">
+                    <div class="rank-addon-fill" id="rankAddonProgress"></div>
+                </div>
+                <div class="rank-addon-list" id="rankAddonList"></div>
+            </div>
+
+            <div class="level-list" id="levelList"></div>
+
+        </section>
+
+
+        <!-- ================================= -->
+        <!-- HISTORY PAGE -->
+        <!-- ================================= -->
+
+        <section class="page" id="history">
+
+            <div class="section-heading">
+                <div>
+                    <h2>Game History</h2>
+                    <p>Search, filter, export, or manage your previous reaction tests.</p>
+                </div>
+
+                <div class="history-actions">
+                    <input type="search" id="historySearch" placeholder="Search rating or date..." aria-label="Search history">
+
+                    <select id="historyFilterMode" aria-label="Filter history by mode">
+                        <option value="ALL">All Modes</option>
+                        <option value="CLASSIC">Classic</option>
+                        <option value="PRECISION">Precision</option>
+                        <option value="EXTREME">Extreme</option>
+                        <option value="WARMUP">Warm-up</option>
+                        <option value="DUEL">2P Duel</option>
+                    </select>
+
+                    <button type="button" class="secondary-button" id="exportCsvButton">
+                        <i class="fa-solid fa-file-csv"></i>
+                        Export CSV
+                    </button>
+
+                    <button type="button" class="secondary-button" id="clearHistory">
+                        <i class="fa-solid fa-trash"></i>
+                        Clear History
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Reaction Time</th>
+                            <th>Rating</th>
+                            <th>Game Mode</th>
+                            <th>XP Earned</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="historyBody">
+                        <tr>
+                            <td colspan="6">No games played yet.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+
+
+        <!-- ================================= -->
+        <!-- ACHIEVEMENTS PAGE -->
+        <!-- ================================= -->
+
+        <section class="page" id="achievements">
+
+            <div class="section-heading">
+                <div>
+                    <h2>Achievements</h2>
+                    <p>Complete challenges and collect rewards.</p>
+                </div>
+
+                <span class="section-tag" id="achievementCounter">0 / 8 UNLOCKED</span>
+            </div>
+
+            <div class="achievements-grid" id="achievementList"></div>
+
+        </section>
+
+
+        <!-- ================================= -->
+        <!-- XP SHOP PAGE -->
+        <!-- ================================= -->
+
+        <section class="page" id="shop">
+
+            <div class="section-heading">
+                <div>
+                    <h2>XP Shop</h2>
+                    <p>Spend your earned XP on themes, arena skins, visual effects, titles, and crates.</p>
+                </div>
+
+                <span class="section-tag" id="xpShopBalanceTag">
+                    <i class="fa-solid fa-coins"></i>
+                    <span id="xpShopBalance">0</span> XP AVAILABLE
+                </span>
+            </div>
+
+            <div class="shop-filters" id="shopFilters">
+                <button type="button" class="shop-filter-btn active" data-shop-filter="ALL">All Items</button>
+                <button type="button" class="shop-filter-btn" data-shop-filter="THEME">Themes</button>
+                <button type="button" class="shop-filter-btn" data-shop-filter="EFFECTS">Skins &amp; Effects</button>
+                <button type="button" class="shop-filter-btn" data-shop-filter="INSTANT PACK">XP Crates</button>
+            </div>
+
+            <div class="shop-grid" id="xpShopGrid"></div>
+
+        </section>
+
+
+        <!-- ================================= -->
+        <!-- SETTINGS PAGE -->
+        <!-- ================================= -->
+
+        <section class="page" id="settings">
+
+            <div class="section-heading">
+                <div>
+                    <h2>Settings</h2>
+                    <p>Customize your experience, back up data, and manage progress.</p>
+                </div>
+            </div>
+
+            <div class="settings-panel">
+                <h3>
+                    <i class="fa-solid fa-user"></i>
+                    Player Profile
+                </h3>
+
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter your username" maxlength="20">
+
+                <button type="button" class="primary-button" id="saveName">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Save Username
+                </button>
+            </div>
+
+            <div class="settings-panel">
+                <h3>
+                    <i class="fa-solid fa-sliders"></i>
+                    Preferences
+                </h3>
+
+                <label for="soundSetting">Sound Effects</label>
+                <select id="soundSetting">
+                    <option value="on">Enabled</option>
+                    <option value="off">Disabled</option>
+                </select>
+
+                <label for="animationSetting">Animations</label>
+                <select id="animationSetting">
+                    <option value="on">Enabled</option>
+                    <option value="off">Disabled</option>
+                </select>
+            </div>
+
+            <div class="settings-panel">
+                <h3>
+                    <i class="fa-solid fa-database"></i>
+                    Backup &amp; Restore
+                </h3>
+                <p class="panel-note">Download a JSON backup of your profile and stats or restore a saved backup.</p>
+
+                <div class="backup-actions">
+                    <button type="button" class="secondary-button" id="exportJsonButton">
+                        <i class="fa-solid fa-download"></i>
+                        Export JSON
+                    </button>
+
+                    <label class="secondary-button file-upload-label" for="importJsonInput">
+                        <i class="fa-solid fa-upload"></i>
+                        Import JSON
+                    </label>
+                    <input type="file" id="importJsonInput" accept="application/json" class="hidden">
+                </div>
+            </div>
+
+            <div class="settings-panel danger-zone">
+                <h3>
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    Danger Zone
+                </h3>
+                <p>Reset all XP, levels, achievements, and game history back to default.</p>
+                <button type="button" class="danger-button" id="resetAllData">
+                    <i class="fa-solid fa-rotate-left"></i>
+                    Reset All Progress
+                </button>
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+        <footer class="main-footer">
+            <div>
+                <strong>REACTION ARENA</strong>
+                <p>Train your reflexes. Beat your limits.</p>
+            </div>
+
+            <span>Version 4.0.0</span>
+        </footer>
+
+    </main>
+
+</div>
+
+
+<!-- TOAST NOTIFICATION -->
+<div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
+
+<!-- MOBILE SIDEBAR OVERLAY -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+
+<!-- =================================================
+     ADD-ON: QUICK SHOP BUTTON & LOGIN / REGISTER MODAL
+================================================= -->
+<button type="button" id="openShopAddonBtn" onclick="window.ReactionShop && window.ReactionShop.open()">
+    <i class="fa-solid fa-store"></i>
+    <span>XP Shop</span>
+</button>
+
+<button type="button" id="openLoginBtn" onclick="window.ReactionAuth && window.ReactionAuth.open('login')">
+    <i class="fa-solid fa-right-to-bracket"></i>
+    <span id="openLoginBtnText">Login</span>
+</button>
+
+<div class="auth-modal hidden" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authModalTitle">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h2 id="authModalTitle" class="auth-title">Login</h2>
+            <button type="button" class="auth-close" id="closeAuthModal" aria-label="Close">✕</button>
+        </div>
+
+        <p class="auth-subtitle">Sign in or create an account to save your progress.</p>
+
+        <div class="auth-tabs">
+            <button type="button" class="auth-tab active" data-auth-tab="login">Login</button>
+            <button type="button" class="auth-tab" data-auth-tab="register">Register</button>
+        </div>
+
+        <form id="loginForm" class="auth-form">
+            <label for="loginIdentifier">Username or Email</label>
+            <input type="text" id="loginIdentifier" placeholder="Enter username or email" required>
+
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" placeholder="Enter password" required>
+
+            <button type="submit" class="auth-submit">Sign In</button>
+        </form>
+
+        <form id="registerForm" class="auth-form hidden">
+            <label for="regUsername">Username</label>
+            <input type="text" id="regUsername" maxlength="20" placeholder="Choose username" required>
+
+            <label for="regEmail">Email</label>
+            <input type="email" id="regEmail" placeholder="you@example.com" required>
+
+            <label for="regPassword">Password</label>
+            <input type="password" id="regPassword" minlength="6" placeholder="At least 6 characters" required>
+
+            <button type="submit" class="auth-submit">Create Account</button>
+        </form>
+
+        <div class="auth-error" id="authError"></div>
+
+        <div class="auth-actions">
+            <button type="button" class="auth-guest" id="continueGuestBtn">Continue as Guest</button>
+            <button type="button" class="auth-logout hidden" id="logoutAccountBtn">Logout</button>
+        </div>
+    </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script src="script.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,341 @@
+/* =====================================================
+   REACTION ARENA — COMPONENTS CSS (VERSION 4.0)
+===================================================== */
+
+.primary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, var(--purple), var(--blue));
+    color: #fff;
+    border-radius: var(--radius-medium);
+    font-size: 13px;
+    font-weight: 700;
+    box-shadow: var(--purple-glow);
+    transition: var(--transition);
+}
+
+.primary-button:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.08);
+}
+
+.secondary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 18px;
+    background: var(--card2);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-medium);
+    font-size: 13px;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.secondary-button:hover {
+    border-color: var(--border-hover);
+    background: var(--card3);
+}
+
+.danger-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 18px;
+    background: rgba(239, 68, 68, 0.14);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    border-radius: var(--radius-medium);
+    font-size: 13px;
+    font-weight: 700;
+    transition: var(--transition);
+}
+
+.danger-button:hover {
+    background: rgba(239, 68, 68, 0.24);
+}
+
+.row-delete-button {
+    padding: 6px 10px;
+    background: rgba(239, 68, 68, 0.12);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    border-radius: var(--radius-small);
+    font-size: 12px;
+}
+
+.row-delete-button:hover {
+    background: rgba(239, 68, 68, 0.24);
+}
+
+.text-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    color: var(--purple-light);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 4px 0;
+    transition: var(--transition-fast);
+}
+
+.text-button:hover {
+    gap: 10px;
+}
+
+.level-overview {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    padding: 24px;
+    margin-bottom: 22px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-large);
+}
+
+.level-number {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, var(--purple), var(--blue));
+    border-radius: var(--radius-large);
+    font-size: 26px;
+    font-weight: 900;
+}
+
+.level-information {
+    flex: 1;
+}
+
+.level-information h3 {
+    font-size: 20px;
+}
+
+.level-information p {
+    margin-top: 4px;
+    margin-bottom: 12px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.level-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 14px;
+    background: var(--card);
+    margin-bottom: 10px;
+    border-radius: var(--radius-medium);
+    border: 1px solid var(--border);
+}
+
+.level-row.is-current {
+    border-color: var(--purple);
+}
+
+.level-badge {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--card2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+}
+
+.level-badge.unlocked {
+    background: var(--purple);
+}
+
+.level-status {
+    margin-left: auto;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+}
+
+.level-status.unlocked {
+    color: var(--green-light);
+}
+
+.history-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.history-actions input,
+.history-actions select {
+    padding: 10px 14px;
+    background: var(--card2);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-medium);
+    font-size: 13px;
+}
+
+.table-container {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-large);
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+th,
+td {
+    padding: 15px 18px;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+}
+
+th {
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+tbody td[colspan="6"] {
+    text-align: center;
+    color: var(--muted);
+    padding: 28px;
+}
+
+.achievement-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.achievement-card {
+    background: var(--card);
+    padding: 18px;
+    border-radius: var(--radius-medium);
+    border: 1px solid var(--border);
+    opacity: 0.55;
+}
+
+.achievement-card.unlocked {
+    border-color: var(--purple);
+    opacity: 1;
+}
+
+.achievement-card i {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: var(--muted);
+    display: block;
+}
+
+.achievement-card.unlocked i {
+    color: var(--orange);
+}
+
+.achievement-card h3 {
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.achievement-card p {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.achievement-tag {
+    display: inline-block;
+    margin-top: 8px;
+    font-weight: 700;
+    font-size: 11px;
+    color: var(--muted);
+}
+
+.achievement-card.unlocked .achievement-tag {
+    color: var(--green-light);
+}
+
+.settings-panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-large);
+    padding: 24px;
+    margin-bottom: 18px;
+    max-width: 560px;
+}
+
+.panel-note {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 16px;
+}
+
+.backup-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.file-upload-label {
+    cursor: pointer;
+}
+
+.settings-panel.danger-zone {
+    border-color: rgba(148, 10, 10, 0.25);
+}
+
+.settings-panel.danger-zone p {
+    color: var(--muted);
+    font-size: 13px;
+    margin-bottom: 16px;
+}
+
+.settings-panel h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    margin-bottom: 18px;
+}
+
+.settings-panel label {
+    display: block;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    color: var(--muted-light);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.settings-panel input,
+.settings-panel select {
+    width: 100%;
+    padding: 11px 14px;
+    margin-bottom: 16px;
+    background: var(--card2);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-medium);
+}
