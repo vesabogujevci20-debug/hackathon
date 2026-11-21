@@ -1,5 +1,5 @@
 /* =====================================================
-   REACTION ARENA — CORE & MODULES (script.js)
+   REACTION ARENA — FULL SCRIPT (script.js)
 ===================================================== */
 (function () {
     const STATE_KEY = 'reactionArenaState_v4';
@@ -781,7 +781,54 @@
         renderAll();
     });
 
+    /* -------------------------------------------------
+       SMOOTH ANIMATIONS SYNC & POP FEEDBACK
+    ------------------------------------------------- */
+    function syncAnimationSetting() {
+        const st = readState();
+        const selectEl = document.getElementById('animationSetting');
+        if (selectEl && selectEl.value !== st.animation) {
+            selectEl.value = st.animation || 'on';
+        }
+        document.body.classList.toggle('no-animations', st.animation === 'off');
+    }
+
+    document.getElementById('animationSetting')?.addEventListener('change', (e) => {
+        const st = readState();
+        st.animation = e.target.value === 'off' ? 'off' : 'on';
+        writeState(st);
+        showToast(`Animations ${st.animation === 'on' ? 'enabled' : 'disabled'}`);
+    });
+
+    function pulseElement(el) {
+        if (!el || readState().animation === 'off') return;
+        el.classList.remove('ra-pop');
+        void el.offsetWidth;
+        el.classList.add('ra-pop');
+    }
+
+    const resultEl = document.getElementById('result');
+    if (resultEl) {
+        const observer = new MutationObserver(() => {
+            if (!resultEl.classList.contains('hidden')) {
+                pulseElement(resultEl);
+                pulseElement(document.getElementById('best'));
+            }
+        });
+        observer.observe(resultEl, { attributes: true, attributeFilter: ['class'] });
+    }
+
+    document.addEventListener('ra:page-changed', () => {
+        syncAnimationSetting();
+        const activeCards = document.querySelectorAll('.page.active .stat-card, .page.active .mode-card, .page.active .shop-card, .page.active .achievement-card, .page.active .rank-step');
+        activeCards.forEach((card, idx) => {
+            if (readState().animation === 'off') return;
+            card.style.animationDelay = `${Math.min(idx, 6) * 45}ms`;
+        });
+    });
+
     function renderAll() {
+        syncAnimationSetting();
         syncStateToAccount();
         applyShopVisuals(readState());
         renderRanks();
