@@ -5,23 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Reaction Arena | Ultimate Reaction Platform</title>
+    <title>Reaction Arena | Reflex &amp; Speed Platform</title>
 
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/dashboard.css">
-    <link rel="stylesheet" href="css/arena.css">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/responsive.css">
-
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <body>
 
 <div class="app">
 
-    <aside class="sidebar" id="sidebar">
+    <aside class="sidebar" id="sidebar" aria-label="Sidebar Navigation">
 
         <div class="logo">
             <div class="logo-icon">
@@ -46,6 +40,38 @@
                 <i class="fa-solid fa-bullseye"></i>
                 <span>Reaction Arena</span>
                 <span class="nav-badge">LIVE</span>
+            </button>
+
+            <button type="button" class="nav-button" data-page="aim">
+                <i class="fa-solid fa-crosshairs"></i>
+                <span>Aim Trainer</span>
+            </button>
+
+            <button type="button" class="nav-button" data-page="clicker">
+                <i class="fa-solid fa-computer-mouse"></i>
+                <span>Click Tester</span>
+            </button>
+
+            <button type="button" class="nav-button" data-page="typing">
+                <i class="fa-solid fa-keyboard"></i>
+                <span>Typing Reflex</span>
+            </button>
+
+            <button type="button" class="nav-button" data-page="stroop">
+                <i class="fa-solid fa-brain"></i>
+                <span>Stroop Blitz</span>
+            </button>
+
+            <button type="button" class="nav-button" data-page="drive">
+                <i class="fa-solid fa-car"></i>
+                <span>Turbo Drive Quiz 3D</span>
+                <span class="nav-badge">3D</span>
+            </button>
+
+            <button type="button" class="nav-button" data-page="surge">
+                <i class="fa-solid fa-fire-flame-curved"></i>
+                <span>Surge Rush</span>
+                <span class="nav-badge">NEW</span>
             </button>
 
             <button type="button" class="nav-button" data-page="levels">
@@ -81,7 +107,6 @@
 
         </nav>
 
-        <!-- PLAYER LEVEL -->
         <div class="sidebar-level">
 
             <div class="sidebar-level-top">
@@ -97,7 +122,6 @@
 
         </div>
 
-        <!-- PROFILE -->
         <div class="sidebar-bottom">
 
             <div class="profile">
@@ -106,7 +130,7 @@
 
                 <div class="profile-information">
                     <strong id="sidebarUsername">Player</strong>
-                    <small id="sidebarRankTitle">Rookie Reflex</small>
+                    <small id="sidebarRankTitle">Iron I</small>
                 </div>
 
                 <button type="button" class="profile-settings" data-open="settings" aria-label="Open Settings">
@@ -120,10 +144,8 @@
     </aside>
 
 
-    <!-- MAIN CONTENT -->
     <main class="main-content">
 
-        <!-- TOPBAR -->
         <header class="topbar">
 
             <div class="topbar-left">
@@ -141,10 +163,20 @@
 
             <div class="topbar-right">
 
-                <button type="button" class="icon-button" id="notificationButton" aria-label="Notifications">
-                    <i class="fa-regular fa-bell"></i>
-                    <span class="notification-dot"></span>
-                </button>
+                <div class="notif-wrap">
+                    <button type="button" class="icon-button" id="notificationButton" aria-label="Notifications">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="notification-dot" id="notificationDot"></span>
+                    </button>
+
+                    <div class="notif-popover hidden" id="notificationPopover" role="region" aria-label="Notifications">
+                        <div class="notif-head">
+                            <strong>Alerts &amp; Status</strong>
+                            <span id="notifBadgeCount">0 Unlocks</span>
+                        </div>
+                        <ul class="notif-list" id="notificationList"></ul>
+                    </div>
+                </div>
 
                 <div class="status-indicator">
                     <span></span>
@@ -192,7 +224,6 @@
 
         <section class="page active" id="home">
 
-            <!-- HERO -->
             <div class="welcome-banner">
 
                 <div class="welcome-content">
@@ -207,8 +238,7 @@
                     </h2>
 
                     <p>
-                        Challenge yourself, improve your reflexes, build streaks,
-                        compete in 2-player duels, and climb the ranks.
+                        Sharpen your reflexes, build streaks, compare against rivals, and climb through 12 competitive ranks.
                     </p>
 
                     <div class="hero-actions">
@@ -217,14 +247,34 @@
                             <i class="fa-solid fa-arrow-right"></i>
                         </button>
 
-                        <button type="button" class="secondary-button" data-open="arena" data-mode="duel">
-                            <i class="fa-solid fa-users"></i>
-                            2P Duel
+                        <button type="button" class="secondary-button" data-open="surge">
+                            <i class="fa-solid fa-fire-flame-curved"></i>
+                            Surge Rush
                         </button>
 
-                        <button type="button" class="secondary-button" data-open="shop">
-                            <i class="fa-solid fa-store"></i>
-                            XP Shop
+                        <button type="button" class="secondary-button" data-open="drive">
+                            <i class="fa-solid fa-car"></i>
+                            Turbo Drive Quiz 3D
+                        </button>
+
+                        <button type="button" class="secondary-button" data-open="aim">
+                            <i class="fa-solid fa-crosshairs"></i>
+                            Aim Trainer
+                        </button>
+
+                        <button type="button" class="secondary-button" data-open="clicker">
+                            <i class="fa-solid fa-computer-mouse"></i>
+                            Click Tester
+                        </button>
+
+                        <button type="button" class="secondary-button" data-open="typing">
+                            <i class="fa-solid fa-keyboard"></i>
+                            Typing Reflex
+                        </button>
+
+                        <button type="button" class="secondary-button" data-open="stroop">
+                            <i class="fa-solid fa-brain"></i>
+                            Stroop Blitz
                         </button>
                     </div>
 
@@ -243,7 +293,15 @@
             </div>
 
 
-            <!-- STATISTICS -->
+            <div class="pb-milestone-banner" id="pbMilestoneBanner">
+                <i class="fa-solid fa-medal"></i>
+                <div>
+                    <strong id="pbMilestoneTitle">Personal Best Tracker</strong>
+                    <p id="pbMilestoneSub">Complete runs across Reaction Arena, Aim Trainer, Click Tester, Typing Reflex, Stroop Blitz, Surge Rush, and Turbo Drive Quiz 3D.</p>
+                </div>
+            </div>
+
+
             <div class="section-heading">
 
                 <div>
@@ -294,13 +352,12 @@
                     </div>
                     <span>Fast Streak</span>
                     <h3 id="streakStat">0</h3>
-                    <small>Consecutive &lt; 250ms</small>
+                    <small>Consecutive under 250ms</small>
                 </div>
 
             </div>
 
 
-            <!-- SECONDARY STATS ROW -->
             <div class="mini-stats-bar">
                 <div class="mini-stat">
                     <span>Rounds Completed</span>
@@ -311,17 +368,28 @@
                     <strong id="totalXP">0</strong>
                 </div>
                 <div class="mini-stat">
-                    <span>Duels Won</span>
-                    <strong id="duelsWonStat">0</strong>
+                    <span>Best Drive Streak</span>
+                    <strong id="bestDriveStat">0</strong>
                 </div>
                 <div class="mini-stat">
                     <span>Current Rank</span>
-                    <strong id="currentRankStat">Rookie Reflex</strong>
+                    <strong id="currentRankStat">Iron I</strong>
                 </div>
             </div>
 
 
-            <!-- PERFORMANCE TREND CHART -->
+            <div class="rival-target-card" id="rivalTargetCard">
+                <div class="rival-target-icon">
+                    <i class="fa-solid fa-flag-checkered"></i>
+                </div>
+                <div class="rival-target-body">
+                    <span>NEXT RIVAL TARGET</span>
+                    <h3 id="rivalTargetHeadline">Play a round to set your rival target</h3>
+                    <p id="rivalTargetDetail">Switch leaderboard tabs below to compare against rivals in Reaction, Aim, or CPS.</p>
+                </div>
+            </div>
+
+
             <div class="section-heading">
                 <div>
                     <h2>Reaction Trend</h2>
@@ -343,11 +411,10 @@
             </div>
 
 
-            <!-- DAILY CHALLENGE -->
             <div class="section-heading">
                 <div>
-                    <h2>Daily Challenge</h2>
-                    <p>Complete today's mission</p>
+                    <h2>Daily &amp; Weekly Missions</h2>
+                    <p>Complete missions to build momentum</p>
                 </div>
             </div>
 
@@ -365,7 +432,7 @@
                     <h3>Beat 250ms</h3>
 
                     <p>
-                        Get a reaction time below 250 milliseconds.
+                        Get a reaction time under 250 milliseconds.
                     </p>
 
                     <div class="challenge-progress">
@@ -387,7 +454,33 @@
             </div>
 
 
-            <!-- GAME MODES -->
+            <div class="weekly-missions-grid" id="weeklyMissionsGrid">
+                <div class="weekly-mission-card">
+                    <div class="weekly-mission-top">
+                        <span>WEEKLY CROSS-TRAIN</span>
+                        <strong id="weeklyCrossStatus">0 / 3</strong>
+                    </div>
+                    <h3>All-Rounder</h3>
+                    <p>Log at least 1 run in Reaction Arena, Aim Trainer, and Click Tester.</p>
+                    <div class="challenge-progress">
+                        <div class="challenge-progress-fill" id="weeklyCrossBar"></div>
+                    </div>
+                </div>
+
+                <div class="weekly-mission-card">
+                    <div class="weekly-mission-top">
+                        <span>WEEKLY CONSISTENCY</span>
+                        <strong id="weeklyPaceStatus">0 / 2</strong>
+                    </div>
+                    <h3>Sub-240ms Pace</h3>
+                    <p>Record a reaction time under 240ms and build a 3+ fast streak.</p>
+                    <div class="challenge-progress">
+                        <div class="challenge-progress-fill" id="weeklyPaceBar"></div>
+                    </div>
+                </div>
+            </div>
+
+
             <div class="section-heading">
 
                 <div>
@@ -401,11 +494,35 @@
             <div class="mode-grid">
 
                 <div class="mode-card">
+                    <div class="mode-icon orange">
+                        <i class="fa-solid fa-fire-flame-curved"></i>
+                    </div>
+                    <h3>Surge Rush</h3>
+                    <p>Endurance wave action with combo multipliers and precision pointer + keyboard play.</p>
+                    <button type="button" class="text-button" data-open="surge">
+                        Play Surge Rush
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <div class="mode-card">
+                    <div class="mode-icon blue">
+                        <i class="fa-solid fa-car"></i>
+                    </div>
+                    <h3>Turbo Drive Quiz 3D</h3>
+                    <p>Steer with A/D or arrow keys and answer timed mid-drive reflex questions.</p>
+                    <button type="button" class="text-button" data-open="drive">
+                        Start Driving
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <div class="mode-card">
                     <div class="mode-icon purple">
                         <i class="fa-solid fa-bolt"></i>
                     </div>
                     <h3>Classic Mode</h3>
-                    <p>Standard random wait times (1.8s – 4.2s) with 1.0x XP.</p>
+                    <p>Balanced signal intervals with 1.0x XP and clean round-by-round tracking.</p>
                     <button type="button" class="text-button" data-open="arena" data-mode="classic">
                         Play Now
                         <i class="fa-solid fa-arrow-right"></i>
@@ -414,12 +531,12 @@
 
                 <div class="mode-card">
                     <div class="mode-icon blue">
-                        <i class="fa-solid fa-crosshairs"></i>
+                        <i class="fa-solid fa-brain"></i>
                     </div>
-                    <h3>Precision Mode</h3>
-                    <p>Longer tension build-up (2.2s – 4.5s) with 1.2x XP.</p>
-                    <button type="button" class="text-button" data-open="arena" data-mode="precision">
-                        Play Now
+                    <h3>Stroop Blitz</h3>
+                    <p>Pick the <strong>INK COLOR</strong>, not the word meaning, against the clock.</p>
+                    <button type="button" class="text-button" data-open="stroop">
+                        Play Blitz
                         <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </div>
@@ -429,7 +546,7 @@
                         <i class="fa-solid fa-fire"></i>
                     </div>
                     <h3>Extreme Mode</h3>
-                    <p>Sudden signals (0.9s – 3.5s) and high reward (1.5x XP).</p>
+                    <p>Faster random cues and higher 1.5x XP reward for sharp focus.</p>
                     <button type="button" class="text-button" data-open="arena" data-mode="extreme">
                         Play Now
                         <i class="fa-solid fa-arrow-right"></i>
@@ -438,36 +555,24 @@
 
                 <div class="mode-card">
                     <div class="mode-icon purple">
-                        <i class="fa-solid fa-users"></i>
+                        <i class="fa-solid fa-keyboard"></i>
                     </div>
-                    <h3>2-Player Duel</h3>
-                    <p>Head-to-head on one keyboard: Player 1 presses <kbd>A</kbd>, Player 2 presses <kbd>L</kbd>.</p>
-                    <button type="button" class="text-button" data-open="arena" data-mode="duel">
-                        Start Duel
-                        <i class="fa-solid fa-arrow-right"></i>
-                    </button>
-                </div>
-
-                <div class="mode-card">
-                    <div class="mode-icon blue">
-                        <i class="fa-solid fa-heart-pulse"></i>
-                    </div>
-                    <h3>Warm-up Mode</h3>
-                    <p>Relaxed pace (1.5s – 3.0s) ideal for building consistency.</p>
-                    <button type="button" class="text-button" data-open="arena" data-mode="warmup">
-                        Warm Up
+                    <h3>Typing Reflex</h3>
+                    <p>30-second speed typing run with live WPM and accuracy metrics.</p>
+                    <button type="button" class="text-button" data-open="typing">
+                        Start Typing
                         <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </div>
 
                 <div class="mode-card">
                     <div class="mode-icon orange">
-                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <i class="fa-solid fa-skull-crossbones"></i>
                     </div>
-                    <h3>False Start Tracker</h3>
-                    <p>Total early clicks recorded: <strong id="earlyClicksInline">0</strong>.</p>
-                    <button type="button" class="text-button" data-open="history">
-                        Inspect Logs
+                    <h3>Sudden Death</h3>
+                    <p>One round above 300ms ends the set; 1.6x XP for clean speed.</p>
+                    <button type="button" class="text-button" data-open="arena" data-mode="sudden_death">
+                        Enter Mode
                         <i class="fa-solid fa-arrow-right"></i>
                     </button>
                 </div>
@@ -475,12 +580,11 @@
             </div>
 
 
-            <!-- LEADERBOARD -->
             <div class="section-heading">
 
                 <div>
                     <h2>Leaderboard</h2>
-                    <p>Top reaction speed players</p>
+                    <p>Compare your records across Reaction Arena, Aim Trainer, and Click Tester</p>
                 </div>
 
                 <span class="section-tag">
@@ -493,22 +597,27 @@
 
             <div class="leaderboard-panel">
 
+                <div class="leaderboard-tabs" id="leaderboardTabs">
+                    <button type="button" class="leaderboard-tab active" data-lb-tab="reaction">Reaction (ms)</button>
+                    <button type="button" class="leaderboard-tab" data-lb-tab="aim">Aim Trainer (Hits)</button>
+                    <button type="button" class="leaderboard-tab" data-lb-tab="cps">Click Tester (CPS)</button>
+                </div>
+
                 <div class="leaderboard-header">
                     <span>PLAYER</span>
-                    <span>BEST TIME</span>
+                    <span id="leaderboardMetricLabel">BEST TIME</span>
                     <span>LEVEL</span>
                 </div>
 
                 <div class="leaderboard-list" id="leaderboardList"></div>
 
-                <p class="leaderboard-note">
-                    Includes sample rivals alongside your personal best.
+                <p class="leaderboard-note" id="leaderboardNote">
+                    Ranked by fastest reaction time (lower ms is faster).
                 </p>
 
             </div>
 
 
-            <!-- RECENT ACTIVITY -->
             <div class="section-heading">
 
                 <div>
@@ -568,8 +677,10 @@
                             <option value="classic">Classic Mode (1.0x XP)</option>
                             <option value="precision">Precision Mode (1.2x XP)</option>
                             <option value="extreme">Extreme Mode (1.5x XP)</option>
+                            <option value="sprint">Sprint — 10 Rounds (1.3x XP)</option>
+                            <option value="sudden_death">Sudden Death under 300ms (1.6x XP)</option>
                             <option value="warmup">Warm-up Mode (0.8x XP)</option>
-                            <option value="duel">2-Player Duel (A vs L)</option>
+                            <option value="duel">2-Player Duel</option>
                         </select>
                     </div>
 
@@ -639,6 +750,598 @@
                     <h3 id="resultMessage">Your reaction time</h3>
                 </div>
 
+
+                <div class="session-summary hidden" id="arenaSessionSummary">
+                    <div class="session-summary-head">
+                        <div>
+                            <span>SESSION BREAKDOWN</span>
+                            <h3 id="summaryHeadline">Set Complete</h3>
+                        </div>
+                        <div class="session-summary-actions">
+                            <button type="button" class="primary-button" id="summaryReplayBtn">
+                                Play Same Mode
+                            </button>
+                            <button type="button" class="secondary-button" id="summaryExtremeBtn">
+                                Try Extreme
+                            </button>
+                        </div>
+                    </div>
+                    <div class="session-summary-metrics">
+                        <div>
+                            <span>SPREAD (MAX-MIN)</span>
+                            <strong id="summarySpread">---</strong>
+                        </div>
+                        <div>
+                            <span>VALID ROUNDS</span>
+                            <strong id="summaryRounds">0</strong>
+                        </div>
+                        <div>
+                            <span>SESSION XP</span>
+                            <strong id="summaryXP">+0 XP</strong>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================= -->
+        <!-- AIM TRAINER PAGE -->
+        <!-- ================================= -->
+
+        <section class="page" id="aim">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Aim Trainer</h2>
+                    <p>Hit targets before they expire and earn your speed category + XP.</p>
+                </div>
+
+                <span class="section-tag">
+                    <i class="fa-solid fa-crosshairs"></i>
+                    REFLEX AIM
+                </span>
+
+            </div>
+
+
+            <div class="arena-panel">
+
+                <div class="arena-toolbar">
+
+                    <div>
+                        <label for="aimDiffSelect">DIFFICULTY</label>
+                        <select id="aimDiffSelect">
+                            <option value="easy">Easy — Larger &amp; Slower (0.9x XP)</option>
+                            <option value="normal" selected>Normal — Standard Pace (1.0x XP)</option>
+                            <option value="hard">Hard — Fast &amp; Small (1.4x XP)</option>
+                        </select>
+                    </div>
+
+                    <div class="shortcut-hint">
+                        <span>Click targets inside the stage</span>
+                        <span><kbd>R</kbd> Restart</span>
+                    </div>
+
+                </div>
+
+
+                <div class="arena-stats">
+
+                    <div>
+                        <span>SCORE</span>
+                        <strong id="aimScore">0</strong>
+                    </div>
+
+                    <div>
+                        <span>HITS / MISSES</span>
+                        <strong id="aimHitsMisses">0 / 0</strong>
+                    </div>
+
+                    <div>
+                        <span>TIME LEFT</span>
+                        <strong id="aimTimeLeft">15.0s</strong>
+                    </div>
+
+                    <div>
+                        <span>BEST SCORE</span>
+                        <strong id="aimBestScore">0</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="aim-stage" id="aimStage" aria-label="Aim Trainer Stage">
+                    <button type="button" class="aim-target hidden" id="aimTarget" aria-label="Aim Target"></button>
+                    <div class="aim-prompt" id="aimPrompt">
+                        <h3>Ready for Aim Trainer?</h3>
+                        <p>Click Start Aim Run to spawn targets for 15 seconds.</p>
+                    </div>
+                </div>
+
+
+                <div class="game-controls">
+
+                    <button type="button" class="primary-button" id="aimStartBtn">
+                        <i class="fa-solid fa-play"></i>
+                        Start Aim Run
+                    </button>
+
+                    <button type="button" class="secondary-button" id="aimResetBtn">
+                        <i class="fa-solid fa-rotate"></i>
+                        Reset
+                    </button>
+
+                </div>
+
+
+                <div class="result hidden" id="aimResult">
+                    <h3 id="aimResultMessage">Aim run summary</h3>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================= -->
+        <!-- CLICK TESTER PAGE -->
+        <!-- ================================= -->
+
+        <section class="page" id="clicker">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Click Tester</h2>
+                    <p>Test how many clicks you can land in a set time window.</p>
+                </div>
+
+                <span class="section-tag">
+                    <i class="fa-solid fa-computer-mouse"></i>
+                    CPS BENCHMARK
+                </span>
+
+            </div>
+
+
+            <div class="arena-panel">
+
+                <div class="arena-toolbar">
+
+                    <div>
+                        <label for="cpsDuration">DURATION</label>
+                        <select id="cpsDuration">
+                            <option value="5">5 Seconds Sprint</option>
+                            <option value="10" selected>10 Seconds Standard</option>
+                            <option value="15">15 Seconds Endurance</option>
+                        </select>
+                    </div>
+
+                    <div class="shortcut-hint">
+                        <span>Click the pad as fast as possible</span>
+                        <span><kbd>R</kbd> Reset</span>
+                    </div>
+
+                </div>
+
+
+                <div class="arena-stats">
+
+                    <div>
+                        <span>CLICKS</span>
+                        <strong id="cpsClicks">0</strong>
+                    </div>
+
+                    <div>
+                        <span>CURRENT CPS</span>
+                        <strong id="cpsLive">0.0</strong>
+                    </div>
+
+                    <div>
+                        <span>TIME LEFT</span>
+                        <strong id="cpsTimeLeft">10.0s</strong>
+                    </div>
+
+                    <div>
+                        <span>PEAK CPS</span>
+                        <strong id="cpsBest">0.0</strong>
+                    </div>
+
+                </div>
+
+
+                <button type="button" class="cps-pad" id="cpsPad" aria-label="Click Tester Pad">
+                    <i class="fa-solid fa-computer-mouse"></i>
+                    <strong id="cpsPadTitle">CLICK TO START &amp; TEST</strong>
+                    <span id="cpsPadSub">Timer starts on your first click</span>
+                </button>
+
+
+                <div class="game-controls">
+
+                    <button type="button" class="secondary-button" id="cpsResetBtn">
+                        <i class="fa-solid fa-rotate"></i>
+                        Reset Pad
+                    </button>
+
+                </div>
+
+
+                <div class="result hidden" id="cpsResult">
+                    <h3 id="cpsResultMessage">Click test summary</h3>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================= -->
+        <!-- TYPING REFLEX PAGE -->
+        <!-- ================================= -->
+
+        <section class="page" id="typing">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Typing Reflex</h2>
+                    <p>30-second reflex typing run with live WPM and accuracy.</p>
+                </div>
+
+                <span class="section-tag">
+                    <i class="fa-solid fa-keyboard"></i>
+                    30s ENDURANCE
+                </span>
+
+            </div>
+
+
+            <div class="arena-panel">
+
+                <div class="arena-stats">
+
+                    <div>
+                        <span>TIME LEFT</span>
+                        <strong id="typingTimeLeft">30.0s</strong>
+                    </div>
+
+                    <div>
+                        <span>LIVE WPM</span>
+                        <strong id="typingLiveWpm">0</strong>
+                    </div>
+
+                    <div>
+                        <span>ACCURACY</span>
+                        <strong id="typingAccuracy">100%</strong>
+                    </div>
+
+                    <div>
+                        <span>BEST WPM</span>
+                        <strong id="typingBestWpm">0</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="typing-stage">
+                    <span class="typing-label">TYPE THE PROMPT BELOW</span>
+                    <div class="typing-prompt" id="typingPrompt">Click Start Typing Run to begin.</div>
+                    <input type="text" class="typing-input" id="typingInput" placeholder="Type here during the run..." disabled autocomplete="off" spellcheck="false">
+                </div>
+
+
+                <div class="game-controls">
+
+                    <button type="button" class="primary-button" id="typingStartBtn">
+                        <i class="fa-solid fa-play"></i>
+                        Start Typing Run
+                    </button>
+
+                    <button type="button" class="secondary-button" id="typingResetBtn">
+                        <i class="fa-solid fa-rotate"></i>
+                        Reset
+                    </button>
+
+                </div>
+
+
+                <div class="result hidden" id="typingResult">
+                    <h3 id="typingResultMessage">Typing run summary</h3>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================= -->
+        <!-- STROOP BLITZ PAGE -->
+        <!-- ================================= -->
+
+        <section class="page" id="stroop">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Stroop Blitz</h2>
+                    <p>Match the ink color while ignoring the word meaning against the clock.</p>
+                </div>
+
+                <span class="section-tag">
+                    <i class="fa-solid fa-brain"></i>
+                    COGNITIVE SPEED
+                </span>
+
+            </div>
+
+
+            <div class="arena-panel">
+
+                <div class="arena-stats">
+
+                    <div>
+                        <span>SCORE</span>
+                        <strong id="stroopScore">0</strong>
+                    </div>
+
+                    <div>
+                        <span>STREAK</span>
+                        <strong id="stroopStreak">0</strong>
+                    </div>
+
+                    <div>
+                        <span>TIME LEFT</span>
+                        <strong id="stroopTimeLeft">25.0s</strong>
+                    </div>
+
+                    <div>
+                        <span>BEST SCORE</span>
+                        <strong id="stroopBestScore">0</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="stroop-stage">
+                    <span class="stroop-cue">SELECT THE INK COLOR OF THE WORD</span>
+                    <div class="stroop-word" id="stroopWord">READY</div>
+                    <div class="stroop-choices" id="stroopChoices">
+                        <button type="button" class="stroop-choice-btn" data-stroop-color="red" disabled><span>RED</span><kbd>1</kbd></button>
+                        <button type="button" class="stroop-choice-btn" data-stroop-color="blue" disabled><span>BLUE</span><kbd>2</kbd></button>
+                        <button type="button" class="stroop-choice-btn" data-stroop-color="green" disabled><span>GREEN</span><kbd>3</kbd></button>
+                        <button type="button" class="stroop-choice-btn" data-stroop-color="amber" disabled><span>AMBER</span><kbd>4</kbd></button>
+                    </div>
+                </div>
+
+
+                <div class="game-controls">
+
+                    <button type="button" class="primary-button" id="stroopStartBtn">
+                        <i class="fa-solid fa-play"></i>
+                        Start Stroop Blitz
+                    </button>
+
+                    <button type="button" class="secondary-button" id="stroopResetBtn">
+                        <i class="fa-solid fa-rotate"></i>
+                        Reset
+                    </button>
+
+                </div>
+
+
+                <div class="result hidden" id="stroopResult">
+                    <h3 id="stroopResultMessage">Stroop Blitz summary</h3>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================= -->
+        <!-- TURBO DRIVE QUIZ 3D PAGE -->
+        <!-- ================================= -->
+
+        <section class="page" id="drive">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Turbo Drive Quiz 3D</h2>
+                    <p>Steer with A/D or arrow keys and answer timed mid-drive questions endlessly.</p>
+                </div>
+
+                <span class="section-tag">
+                    <i class="fa-solid fa-car"></i>
+                    3D ENDLESS
+                </span>
+
+            </div>
+
+
+            <div class="arena-panel">
+
+                <div class="arena-stats">
+
+                    <div>
+                        <span>STREAK</span>
+                        <strong id="driveStreak">0</strong>
+                    </div>
+
+                    <div>
+                        <span>BEST STREAK</span>
+                        <strong id="driveBestStreak">0</strong>
+                    </div>
+
+                    <div>
+                        <span>SPEED</span>
+                        <strong id="driveSpeedStat">0 KM/H</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="drive-3d-shell">
+                    <div class="drive-hud-strip">
+                        <span id="driveModeBadge">A/D OR ARROWS TO STEER</span>
+                        <span id="driveLaneBadge">MID-DRIVE QUIZ</span>
+                    </div>
+                    <canvas id="driveCanvas" width="800" height="440"></canvas>
+                    <div class="drive-quiz-overlay hidden" id="driveQuizOverlay">
+                        <div class="drive-quiz-meta">
+                            <span class="drive-diff-pill" id="driveDiffPill">STANDARD</span>
+                            <span class="drive-timer-readout" id="driveTimerReadout">8.0s</span>
+                        </div>
+                        <div class="drive-timer-track">
+                            <div class="drive-timer-fill" id="driveTimerFill"></div>
+                        </div>
+                        <div class="drive-question" id="driveQuestion">Question loading...</div>
+                        <div class="drive-choices" id="driveChoices"></div>
+                    </div>
+                </div>
+
+
+                <div class="game-controls">
+
+                    <button type="button" class="primary-button" id="driveStartBtn">
+                        <i class="fa-solid fa-play"></i>
+                        Start 3D Drive
+                    </button>
+
+                    <button type="button" class="secondary-button" id="driveResetBtn">
+                        <i class="fa-solid fa-rotate"></i>
+                        Reset
+                    </button>
+
+                </div>
+
+
+                <div class="result hidden" id="driveResult">
+                    <h3 id="driveResultMessage">3D Drive summary</h3>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================================= -->
+        <!-- SURGE RUSH ENDURANCE PAGE -->
+        <!-- ================================= -->
+
+        <section class="page" id="surge">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Surge Rush</h2>
+                    <p>Endurance wave mode with combo multipliers and precision pointer + keyboard play.</p>
+                </div>
+
+                <span class="section-tag">
+                    <i class="fa-solid fa-fire-flame-curved"></i>
+                    ENDURANCE MODE
+                </span>
+
+            </div>
+
+
+            <div class="surge-panel">
+
+                <div class="surge-hud">
+
+                    <div class="surge-stats">
+                        <div class="surge-stat">
+                            <span>Score</span>
+                            <strong id="surgeScore">0</strong>
+                        </div>
+                        <div class="surge-stat">
+                            <span>Best</span>
+                            <strong id="surgeBest">0</strong>
+                        </div>
+                        <div class="surge-stat">
+                            <span>Wave</span>
+                            <strong id="surgeWave">1 · Standard</strong>
+                        </div>
+                        <div class="surge-stat">
+                            <span>Combo</span>
+                            <strong id="surgeCombo">1.0x</strong>
+                        </div>
+                        <div class="surge-stat">
+                            <span>Shields</span>
+                            <strong id="surgeShields">2</strong>
+                        </div>
+                        <div class="surge-stat">
+                            <span>Overdrive</span>
+                            <strong id="surgeOverdrive">0%</strong>
+                        </div>
+                    </div>
+
+                    <div class="game-controls">
+                        <button type="button" class="primary-button" id="surgeStartBtn">
+                            <i class="fa-solid fa-play"></i>
+                            Start Run
+                        </button>
+                        <button type="button" class="secondary-button" id="surgePauseBtn">
+                            Pause (P)
+                        </button>
+                        <button type="button" class="secondary-button" id="surgeResetBtn">
+                            Restart (R)
+                        </button>
+                    </div>
+
+                </div>
+
+
+                <div class="surge-stage-wrap">
+
+                    <canvas id="surgeCanvas" width="960" height="540"></canvas>
+
+                    <div class="surge-overlay" id="surgeStartOverlay">
+                        <h3>SURGE RUSH</h3>
+                        <p>
+                            Clear incoming nodes before shields run out, chain hits to build your combo multiplier, and capture green Surge Cores for bonus points.
+                        </p>
+                        <div class="surge-hints">
+                            <div class="surge-hint-card">
+                                <strong>Aim &amp; Intercept</strong>
+                                Move pointer and click targets
+                            </div>
+                            <div class="surge-hint-card">
+                                <strong>Surge Cores</strong>
+                                Green cores award double base points
+                            </div>
+                            <div class="surge-hint-card">
+                                <strong>Quick Controls</strong>
+                                P to Pause · R to Restart
+                            </div>
+                        </div>
+                        <button type="button" class="primary-button" id="surgeOverlayStartBtn">
+                            Launch Surge Rush
+                        </button>
+                    </div>
+
+                    <div class="surge-overlay hidden" id="surgeEndOverlay">
+                        <h3>RUN COMPLETE</h3>
+                        <p id="surgeEndSummary"></p>
+                        <button type="button" class="primary-button" id="surgeAgainBtn">
+                            Play Again
+                        </button>
+                    </div>
+
+                </div>
+
+
+                <div class="surge-footer">
+                    <span id="surgeStatus">Ready — Checkpoint: Wave 1</span>
+                    <span>Click targets to intercept · P Pause · R Restart</span>
+                </div>
+
             </div>
 
         </section>
@@ -651,92 +1354,111 @@
         <section class="page" id="levels">
 
             <div class="section-heading">
+
                 <div>
-                    <h2>Your Levels &amp; Ranks</h2>
-                    <p>Earn XP, level up, and climb through all 12 competitive rank tiers.</p>
+                    <h2>Levels &amp; Ranks</h2>
+                    <p>Earn XP from every round to level up and advance across the 12-tier rank system.</p>
                 </div>
-                <span class="section-tag">12 TIERS</span>
+
+                <span class="section-tag">
+                    <i class="fa-solid fa-trophy"></i>
+                    LEVEL <span id="levelDisplay">1</span>
+                </span>
+
             </div>
 
-            <div class="level-overview">
-                <div class="level-number" id="levelDisplay">1</div>
 
-                <div class="level-information">
-                    <h3>Level <span id="levelHeading">1</span> — <span id="levelRankLabel">Rookie Reflex</span></h3>
-                    <p><span id="sideXPDisplay">0</span> XP earned (<span id="xpToNextLevel">300</span> XP to next level)</p>
+            <div class="level-card">
 
-                    <div class="progress-track">
-                        <div class="progress-fill" id="levelProgress"></div>
-                    </div>
+                <div>
+                    <span>CURRENT LEVEL</span>
+                    <h2>Level <span id="levelHeading">1</span></h2>
+                    <p>Rank: <strong id="levelRankLabel">Iron I</strong> • Total XP: <strong id="sideXPDisplay">0</strong> XP</p>
                 </div>
+
+                <div class="progress-track">
+                    <div class="progress-fill" id="levelProgress"></div>
+                </div>
+
             </div>
 
-            <div class="rank-addon-card" id="rankSystemCard">
+
+            <div class="rank-addon-card" id="rankAddonCard">
                 <div class="rank-addon-top">
-                    <div class="rank-addon-badge" id="rankAddonIcon">
-                        <i class="fa-solid fa-shield"></i>
+                    <div class="rank-addon-identity">
+                        <div class="rank-addon-icon" id="rankAddonIcon">
+                            <i class="fa-solid fa-shield"></i>
+                        </div>
+                        <div>
+                            <span class="rank-addon-kicker">12-TIER COMPETITIVE RANK</span>
+                            <h3 id="rankAddonTitle">Iron I</h3>
+                        </div>
                     </div>
-                    <div class="rank-addon-info">
-                        <span class="rank-addon-eyebrow">COMPETITIVE RANK (12 TIERS)</span>
-                        <h3 id="rankAddonTitle">Iron I</h3>
-                        <p id="rankAddonNextText">0 / 250 XP to Iron II</p>
-                    </div>
-                    <div class="rank-addon-pill" id="rankAddonTierPill">DIV I</div>
+                    <span class="rank-addon-pill" id="rankAddonTierPill">DIV I</span>
                 </div>
-                <div class="rank-addon-bar">
-                    <div class="rank-addon-fill" id="rankAddonProgress"></div>
+                <div class="rank-addon-progress-wrap">
+                    <div class="rank-addon-progress-meta">
+                        <span>Rank Progress</span>
+                        <strong id="rankAddonNextText">0 / 250 XP to Iron II</strong>
+                    </div>
+                    <div class="rank-addon-track">
+                        <div class="rank-addon-fill" id="rankAddonProgress"></div>
+                    </div>
                 </div>
                 <div class="rank-addon-list" id="rankAddonList"></div>
             </div>
-
-            <div class="level-list" id="levelList"></div>
 
         </section>
 
 
         <!-- ================================= -->
-        <!-- HISTORY PAGE -->
+        <!-- GAME HISTORY PAGE -->
         <!-- ================================= -->
 
         <section class="page" id="history">
 
             <div class="section-heading">
+
                 <div>
                     <h2>Game History</h2>
-                    <p>Search, filter, export, or manage your previous reaction tests.</p>
+                    <p>Your recorded reaction rounds and mode runs</p>
                 </div>
 
                 <div class="history-actions">
-                    <input type="search" id="historySearch" placeholder="Search rating or date..." aria-label="Search history">
-
-                    <select id="historyFilterMode" aria-label="Filter history by mode">
+                    <input type="search" id="historySearch" placeholder="Search ms, mode, rating..." aria-label="Search history">
+                    <select id="historyFilterMode" aria-label="Filter by mode">
                         <option value="ALL">All Modes</option>
                         <option value="CLASSIC">Classic</option>
                         <option value="PRECISION">Precision</option>
                         <option value="EXTREME">Extreme</option>
+                        <option value="SPRINT">Sprint</option>
+                        <option value="SUDDEN_DEATH">Sudden Death</option>
                         <option value="WARMUP">Warm-up</option>
-                        <option value="DUEL">2P Duel</option>
+                        <option value="DUEL">Duel</option>
+                        <option value="SURGE">Surge Rush</option>
                     </select>
-
                     <button type="button" class="secondary-button" id="exportCsvButton">
                         <i class="fa-solid fa-file-csv"></i>
                         Export CSV
                     </button>
-
                     <button type="button" class="secondary-button" id="clearHistory">
                         <i class="fa-solid fa-trash"></i>
                         Clear History
                     </button>
                 </div>
+
             </div>
 
+
             <div class="table-container">
+
                 <table>
+
                     <thead>
                         <tr>
-                            <th>Reaction Time</th>
+                            <th>Reaction / Score</th>
                             <th>Rating</th>
-                            <th>Game Mode</th>
+                            <th>Mode</th>
                             <th>XP Earned</th>
                             <th>Date</th>
                             <th>Action</th>
@@ -745,10 +1467,12 @@
 
                     <tbody id="historyBody">
                         <tr>
-                            <td colspan="6">No games played yet.</td>
+                            <td colspan="6">No games recorded yet.</td>
                         </tr>
                     </tbody>
+
                 </table>
+
             </div>
 
         </section>
@@ -761,15 +1485,21 @@
         <section class="page" id="achievements">
 
             <div class="section-heading">
+
                 <div>
                     <h2>Achievements</h2>
-                    <p>Complete challenges and collect rewards.</p>
+                    <p>Unlock badges as you improve your reaction speed and play different modes.</p>
                 </div>
 
-                <span class="section-tag" id="achievementCounter">0 / 8 UNLOCKED</span>
+                <span class="section-tag">
+                    <i class="fa-solid fa-award"></i>
+                    14 BADGES
+                </span>
+
             </div>
 
-            <div class="achievements-grid" id="achievementList"></div>
+
+            <div class="achievements-grid" id="achievementsGrid"></div>
 
         </section>
 
@@ -781,25 +1511,21 @@
         <section class="page" id="shop">
 
             <div class="section-heading">
+
                 <div>
                     <h2>XP Shop</h2>
-                    <p>Spend your earned XP on themes, arena skins, visual effects, titles, and crates.</p>
+                    <p>Spend your earned XP on profile titles and bonus XP crates.</p>
                 </div>
 
-                <span class="section-tag" id="xpShopBalanceTag">
+                <span class="section-tag">
                     <i class="fa-solid fa-coins"></i>
-                    <span id="xpShopBalance">0</span> XP AVAILABLE
+                    <span id="shopXpBalance">0 XP</span>
                 </span>
+
             </div>
 
-            <div class="shop-filters" id="shopFilters">
-                <button type="button" class="shop-filter-btn active" data-shop-filter="ALL">All Items</button>
-                <button type="button" class="shop-filter-btn" data-shop-filter="THEME">Themes</button>
-                <button type="button" class="shop-filter-btn" data-shop-filter="EFFECTS">Skins &amp; Effects</button>
-                <button type="button" class="shop-filter-btn" data-shop-filter="INSTANT PACK">XP Crates</button>
-            </div>
 
-            <div class="shop-grid" id="xpShopGrid"></div>
+            <div class="shop-grid" id="shopGrid"></div>
 
         </section>
 
@@ -811,52 +1537,76 @@
         <section class="page" id="settings">
 
             <div class="section-heading">
+
                 <div>
                     <h2>Settings</h2>
-                    <p>Customize your experience, back up data, and manage progress.</p>
+                    <p>Customize your profile, duel keys, audio, and local backup data</p>
                 </div>
+
             </div>
 
+
             <div class="settings-panel">
+
                 <h3>
                     <i class="fa-solid fa-user"></i>
-                    Player Profile
+                    Profile Settings
                 </h3>
 
                 <label for="username">Username</label>
-                <input type="text" id="username" placeholder="Enter your username" maxlength="20">
+                <input type="text" id="username" placeholder="Enter your name" maxlength="24">
 
                 <button type="button" class="primary-button" id="saveName">
-                    <i class="fa-solid fa-floppy-disk"></i>
-                    Save Username
+                    Save Changes
                 </button>
+
             </div>
 
+
             <div class="settings-panel">
+
                 <h3>
-                    <i class="fa-solid fa-sliders"></i>
-                    Preferences
+                    <i class="fa-solid fa-gamepad"></i>
+                    Duel &amp; Audio Preferences
                 </h3>
+
+                <label for="duelKeyP1">2-Player Duel — Player 1 Key</label>
+                <select id="duelKeyP1">
+                    <option value="a" selected>A Key</option>
+                    <option value="q">Q Key</option>
+                    <option value="1">1 Key</option>
+                </select>
+
+                <label for="duelKeyP2">2-Player Duel — Player 2 Key</label>
+                <select id="duelKeyP2">
+                    <option value="l" selected>L Key</option>
+                    <option value="p">P Key</option>
+                    <option value="0">0 Key</option>
+                </select>
 
                 <label for="soundSetting">Sound Effects</label>
                 <select id="soundSetting">
                     <option value="on">Enabled</option>
-                    <option value="off">Disabled</option>
+                    <option value="off">Muted</option>
                 </select>
 
                 <label for="animationSetting">Animations</label>
                 <select id="animationSetting">
                     <option value="on">Enabled</option>
-                    <option value="off">Disabled</option>
+                    <option value="off">Reduced Motion</option>
                 </select>
+
             </div>
 
+
             <div class="settings-panel">
+
                 <h3>
                     <i class="fa-solid fa-database"></i>
                     Backup &amp; Restore
                 </h3>
-                <p class="panel-note">Download a JSON backup of your profile and stats or restore a saved backup.</p>
+
+                <p class="panel-note">Export a JSON snapshot of your progress or restore from a saved backup.</p>
 
                 <div class="backup-actions">
                     <button type="button" class="secondary-button" id="exportJsonButton">
@@ -867,34 +1617,41 @@
                     <label class="secondary-button file-upload-label" for="importJsonInput">
                         <i class="fa-solid fa-upload"></i>
                         Import JSON
+                        <input type="file" id="importJsonInput" accept="application/json" class="hidden">
                     </label>
-                    <input type="file" id="importJsonInput" accept="application/json" class="hidden">
                 </div>
+
             </div>
 
+
             <div class="settings-panel danger-zone">
+
                 <h3>
                     <i class="fa-solid fa-triangle-exclamation"></i>
                     Danger Zone
                 </h3>
-                <p>Reset all XP, levels, achievements, and game history back to default.</p>
+
+                <p class="panel-note">Reset all reaction history, XP, shop unlocks, and achievements.</p>
+
                 <button type="button" class="danger-button" id="resetAllData">
-                    <i class="fa-solid fa-rotate-left"></i>
+                    <i class="fa-solid fa-trash"></i>
                     Reset All Progress
                 </button>
+
             </div>
 
         </section>
 
 
-        <!-- FOOTER -->
         <footer class="main-footer">
+
             <div>
-                <strong>REACTION ARENA</strong>
-                <p>Train your reflexes. Beat your limits.</p>
+                <strong>Reaction Arena</strong>
+                <p>Train your reflexes, beat your personal best, and climb the ranks.</p>
             </div>
 
-            <span>Version 4.0.0</span>
+            <span>Version 4.5</span>
+
         </footer>
 
     </main>
@@ -902,75 +1659,13 @@
 </div>
 
 
-<!-- TOAST NOTIFICATION -->
-<div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
-
-<!-- MOBILE SIDEBAR OVERLAY -->
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
 
-<!-- =================================================
-     ADD-ON: QUICK SHOP BUTTON & LOGIN / REGISTER MODAL
-================================================= -->
-<button type="button" id="openShopAddonBtn" onclick="window.ReactionShop && window.ReactionShop.open()">
-    <i class="fa-solid fa-store"></i>
-    <span>XP Shop</span>
-</button>
+<div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
 
-<button type="button" id="openLoginBtn" onclick="window.ReactionAuth && window.ReactionAuth.open('login')">
-    <i class="fa-solid fa-right-to-bracket"></i>
-    <span id="openLoginBtnText">Login</span>
-</button>
 
-<div class="auth-modal hidden" id="authModal" role="dialog" aria-modal="true" aria-labelledby="authModalTitle">
-    <div class="auth-card">
-        <div class="auth-header">
-            <h2 id="authModalTitle" class="auth-title">Login</h2>
-            <button type="button" class="auth-close" id="closeAuthModal" aria-label="Close">✕</button>
-        </div>
-
-        <p class="auth-subtitle">Sign in or create an account to save your progress.</p>
-
-        <div class="auth-tabs">
-            <button type="button" class="auth-tab active" data-auth-tab="login">Login</button>
-            <button type="button" class="auth-tab" data-auth-tab="register">Register</button>
-        </div>
-
-        <form id="loginForm" class="auth-form">
-            <label for="loginIdentifier">Username or Email</label>
-            <input type="text" id="loginIdentifier" placeholder="Enter username or email" required>
-
-            <label for="loginPassword">Password</label>
-            <input type="password" id="loginPassword" placeholder="Enter password" required>
-
-            <button type="submit" class="auth-submit">Sign In</button>
-        </form>
-
-        <form id="registerForm" class="auth-form hidden">
-            <label for="regUsername">Username</label>
-            <input type="text" id="regUsername" maxlength="20" placeholder="Choose username" required>
-
-            <label for="regEmail">Email</label>
-            <input type="email" id="regEmail" placeholder="you@example.com" required>
-
-            <label for="regPassword">Password</label>
-            <input type="password" id="regPassword" minlength="6" placeholder="At least 6 characters" required>
-
-            <button type="submit" class="auth-submit">Create Account</button>
-        </form>
-
-        <div class="auth-error" id="authError"></div>
-
-        <div class="auth-actions">
-            <button type="button" class="auth-guest" id="continueGuestBtn">Continue as Guest</button>
-            <button type="button" class="auth-logout hidden" id="logoutAccountBtn">Logout</button>
-        </div>
-    </div>
-</div>
-
-<!-- JAVASCRIPT -->
 <script src="script.js"></script>
 
 </body>
-
 </html>
